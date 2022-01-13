@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:reorderables/reorderables.dart';
 import 'dart:developer';
+import 'package:snapping_sheet/snapping_sheet.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -38,10 +39,25 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: [_buildGoogleMap(), _buildBody()],
+        children: [_buildGoogleMap(), _buildSnappingSheet()],
       ),
     );
   }
+
+
+
+  Widget _buildSnappingSheet(){
+    return SnappingSheet(
+      grabbing: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))
+        ),
+      ),
+      grabbingHeight: 100,
+    );
+  }
+
 
   final CameraPosition _kGooglePlex = const CameraPosition(
     bearing: 30,
@@ -62,7 +78,6 @@ class _MapPageState extends State<MapPage> {
     return Align(
       alignment: Alignment.topCenter,
       child: SizedBox(
-        height: 600,
         child: GoogleMap(
           markers: _markers,
           polylines: _polylines,
